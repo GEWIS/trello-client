@@ -6,7 +6,7 @@
   "scripts": {
     "build": "vite build",
     "generate": "openapi-ts --input ./swagger.json --output ./trello-client",
-    "release": "release-it major --git.requireBranch=main --github.release --no-npm.publish"
+    "release": "release-it --ci major --git.commitMessage=\"chore: release ${version}\" --git.requireBranch=main --no-github.release --no-npm.publish"
   },
   "main": "./dist/trello-client.umd.cjs",
   "module": "./dist/trello-client.js",
