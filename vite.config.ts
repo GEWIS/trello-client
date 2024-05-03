@@ -12,7 +12,5 @@ export default defineConfig({
       fileName: 'trello-client',
     },
   },
-  plugins: [dts({
-    insertTypesEntry: true,
-  })],
+  plugins: [dts({ rollupTypes: true })]
 });
