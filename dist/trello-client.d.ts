@@ -9145,17 +9145,26 @@ declare type ApiResult<TData = any> = {
 export declare type APIToken = string;
 
 export declare type Attachment = {
-    id?: TrelloID;
-    bytes?: string | null;
-    date?: string;
-    edgeColor?: Color | null;
-    idMember?: TrelloID;
-    isUpload?: boolean;
-    mimeType?: string;
-    name?: string;
-    previews?: Array<(string)>;
-    url?: string;
-    pos?: number;
+    id: TrelloID;
+    bytes: number | null;
+    date: string;
+    edgeColor: Color | null;
+    idMember: TrelloID;
+    isUpload: boolean;
+    mimeType: string;
+    name: string;
+    previews: {
+        id: string;
+        _id: string;
+        scaled: boolean;
+        url: string;
+        bytes: number;
+        height: number;
+        width: number;
+    }[];
+    url: string;
+    pos: number;
+    fileName: string;
 };
 
 export declare type AttachmentFields = 'id' | 'bytes' | 'date' | 'edgeColor' | 'idMember' | 'isUpload' | 'mimeType' | 'name' | 'previews' | 'url' | 'pos';
@@ -9203,13 +9212,16 @@ export declare type Board = {
     ixUpdate?: number;
     templateGallery?: string | null;
     enterpriseOwned?: boolean;
+    cards?: Card[];
+    lists?: TrelloList[];
+    checklists?: Checklist[];
 };
 
 export declare type BoardBackground = {
     id?: TrelloID;
 };
 
-export declare type BoardFields = 'id' | 'name' | 'desc' | 'descData' | 'closed' | 'idMemberCreator' | 'idOrganization' | 'pinned' | 'url' | 'shortUrl' | 'prefs' | 'labelNames' | 'starred' | 'limits' | 'memberships' | 'enterpriseOwned';
+export declare type BoardFields = 'id' | 'name' | 'desc' | 'descData' | 'closed' | 'idMemberCreator' | 'idOrganization' | 'pinned' | 'url' | 'shortUrl' | 'prefs' | 'labelNames' | 'starred' | 'limits' | 'memberships' | 'enterpriseOwned' | 'all';
 
 export declare type BoardStars = {
     id?: TrelloID;
@@ -9284,7 +9296,7 @@ export declare type Card = {
     idMembersVoted?: Array<(TrelloID)>;
     idShort?: number;
     idAttachmentCover?: TrelloID | null;
-    labels?: Array<(TrelloID)>;
+    labels?: Array<(Label)>;
     limits?: Limits;
     locationName?: string | null;
     manualCoverAttachment?: boolean;
@@ -9309,7 +9321,7 @@ export declare type CardAging = 'pirate' | 'regular';
 /**
  * The fields on a Card.
  */
-export declare type CardFields = 'id' | 'address' | 'badges' | 'checkItemStates' | 'closed' | 'coordinates' | 'creationMethod' | 'dueComplete' | 'dateLastActivity' | 'desc' | 'descData' | 'due' | 'dueReminder' | 'idBoard' | 'idChecklists' | 'idLabels' | 'idList' | 'idMembers' | 'idMembersVoted' | 'idShort' | 'idAttachmentCover' | 'labels' | 'limits' | 'locationName' | 'manualCoverAttachment' | 'name' | 'pos' | 'shortLink' | 'shortUrl' | 'subscribed' | 'url' | 'cover' | 'isTemplate';
+export declare type CardFields = 'id' | 'address' | 'badges' | 'checkItemStates' | 'closed' | 'coordinates' | 'creationMethod' | 'dueComplete' | 'dateLastActivity' | 'desc' | 'descData' | 'due' | 'dueReminder' | 'idBoard' | 'idChecklists' | 'idLabels' | 'idList' | 'idMembers' | 'idMembersVoted' | 'idShort' | 'idAttachmentCover' | 'labels' | 'limits' | 'locationName' | 'manualCoverAttachment' | 'name' | 'pos' | 'shortLink' | 'shortUrl' | 'subscribed' | 'url' | 'cover' | 'isTemplate' | 'all';
 
 export declare type CFValue = {
     number?: string;
@@ -9318,16 +9330,21 @@ export declare type CFValue = {
 export declare type Channel = 'email';
 
 export declare type CheckItem = {
-    idChecklist?: TrelloID;
-    state?: 'complete' | 'incomplete';
-    id?: TrelloID;
-    name?: string;
-    nameData?: string | null;
-    pos?: string;
+    idChecklist: TrelloID;
+    state: 'complete' | 'incomplete';
+    id: TrelloID;
+    name: string;
+    nameData: string | null;
+    pos: string;
 };
 
 export declare type Checklist = {
-    id?: TrelloID;
+    id: TrelloID;
+    name: string;
+    idBoard: TrelloID;
+    idCard: TrelloID;
+    pos: number;
+    checkItems: CheckItem[];
 };
 
 export declare type ClaimableOrganizations = {
@@ -9625,7 +9642,7 @@ export declare class DefaultService {
      * @returns Error Unexpected error
      * @throws ApiError
      */
-    static getBoardsId(data: $OpenApiTs['/boards/{id}']['get']['req']): CancelablePromise<$OpenApiTs['/boards/{id}']['get']['res'][200] | $OpenApiTs['/boards/{id}']['get']['res'][200]>;
+    static getBoardsId(data: $OpenApiTs['/boards/{id}']['get']['req']): CancelablePromise<$OpenApiTs['/boards/{id}']['get']['res'][200]>;
     /**
      * Update a Board
      * Update an existing board by id
@@ -12486,7 +12503,7 @@ export declare type LimitsObject = {
     warnAt?: number;
 };
 
-export declare type ListFields = 'id';
+export declare type ListFields = 'id' | 'all';
 
 export declare type Member = {
     id?: TrelloID;
@@ -12562,7 +12579,7 @@ export declare type Member = {
     idBoardsPinned?: Array<TrelloID> | null;
 };
 
-export declare type MemberFields = 'id';
+export declare type MemberFields = 'id' | 'all';
 
 export declare type MemberPrefs = {
     timezoneInfo?: {
@@ -12666,7 +12683,7 @@ export declare type Organization = {
     id?: TrelloID;
 };
 
-export declare type OrganizationFields = 'id' | 'name';
+export declare type OrganizationFields = 'id' | 'name' | 'all';
 
 export declare type PendingOrganizations = {
     id?: TrelloID;
@@ -12770,7 +12787,7 @@ export declare type Token = {
     permissions?: Array<TokenPermission>;
 };
 
-export declare type TokenFields = 'identifier' | 'idMember' | 'dateCreated' | 'dateExpires' | 'permissions';
+export declare type TokenFields = 'identifier' | 'idMember' | 'dateCreated' | 'dateExpires' | 'permissions' | 'all';
 
 export declare type TokenPermission = {
     idModel?: TrelloID | '*';
