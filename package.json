@@ -6,7 +6,8 @@
   "scripts": {
     "build": "vite build",
     "generate": "openapi-ts --input ./swagger.json --output ./trello-client",
-    "release": "release-it --ci major --git.commitMessage=\"chore: release ${version}\" --git.requireBranch=main --no-github.release --no-npm.publish"
+    "release-major": "release-it --ci major --git.commitMessage=\"chore: release ${version}\" --git.requireBranch=main --no-github.release --no-npm.publish",
+    "release": "release-it --ci minor --git.commitMessage=\"chore: release ${version}\" --git.requireBranch=main --no-github.release --no-npm.publish"
   },
   "main": "./dist/trello-client.umd.cjs",
   "module": "./dist/trello-client.js",
@@ -27,13 +28,13 @@
   "author": "Gijs de Man",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/GEWIS/PDF-generator-client.git"
+    "url": "git+https://github.com/GEWIS/trello-client.git"
   },
   "private": false,
   "bugs": {
-    "url": "https://github.com/GEWIS/PDF-generator-client/issues"
+    "url": "https://github.com/GEWIS/trello-client/issues"
   },
-  "homepage": "https://github.com/GEWIS/PDF-generator-client#readme",
+  "homepage": "https://github.com/GEWIS/trello-client#readme",
   "devDependencies": {
     "@hey-api/openapi-ts": "^0.42.1",
     "@types/node": "^20.12.7",
