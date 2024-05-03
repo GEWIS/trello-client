@@ -12,5 +12,7 @@ export default defineConfig({
       fileName: 'trello-client',
     },
   },
-  plugins: [dts()],
+  plugins: [dts({
+    insertTypesEntry: true,
+  })],
 });
