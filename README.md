@@ -1,3 +1,7 @@
+# archive notice
+
+The OpenAPI specifications of Trello are not accurate enough to have a reliable client based upon them. As a result, this repository is archived.
+
 # trello-client
 Simple client for Trello generated from the Trello openapi specification using openapi-ts.
 
